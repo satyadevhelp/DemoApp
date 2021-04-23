@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProfileHandler.Views.AddProfilePage"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:helper="clr-namespace:ProfileHandler.Helpers"
+             xmlns:vm="clr-namespace:ProfileHandler.ViewModels"
+             Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helper:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:AddProfilePageVM />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <Frame Margin="0" VerticalOptions="Fill" Padding="5" HasShadow="True">
+                <Grid ColumnSpacing="0" RowSpacing="10" BackgroundColor="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <!--  profile image  -->
+                    <Frame Grid.Row="0" HorizontalOptions="Center"
+                           BorderColor="LightGray"                            
+                           Padding="1"
+                           HasShadow="True"
+                           VerticalOptions="End"
+                           HeightRequest="150" 
+                           WidthRequest="150" 
+                           CornerRadius="75">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenDialogCommand}"/>
+                        </Frame.GestureRecognizers>
+                        <Image HeightRequest="150" 
+                               WidthRequest="150"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" Aspect="AspectFill"
+                               Source="{Binding ProfilePicture, Converter={StaticResource ImageFileToImageSourceConverter}}">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectOrChoosePhotoCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+
+                    <!--  Name  -->
+                    <Entry Grid.Row="1"
+                           Placeholder="Name"
+                           Text="{Binding Name}"
+                           HorizontalOptions="FillAndExpand"/>
+
+                    <!-- Sex -->
+                    <Picker Grid.Row="2"
+                            HorizontalOptions="FillAndExpand" 
+                            SelectedItem="{Binding Sex}"
+                            Title="Select Sex">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Male</x:String>
+                                <x:String>Female</x:String>
+                                <x:String>Other</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <!--  Address  -->
+                    <Entry Grid.Row="3"
+                           Placeholder="Address"
+                           Text="{Binding Address}" 
+                           HorizontalOptions="FillAndExpand"/>
+
+                    <!--  Mobile  -->
+                    <Entry Grid.Row="4"
+                           Placeholder="Mobile"
+                           Text="{Binding Mobile}"
+                           HorizontalOptions="FillAndExpand"/>
+
+                    <!--  Submit Button  -->
+                    <Button Grid.Row="5"
+                            CornerRadius="0"
+                            Text="CreateProfile"
+                            Command="{Binding CreateProfileCommand}"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="#004c91"
+                            />
+                </Grid>
+            </Frame>
+
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

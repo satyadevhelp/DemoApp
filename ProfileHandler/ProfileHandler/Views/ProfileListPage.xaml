@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProfileHandler.Views.ProfileListPage"
+             xmlns:vm="clr-namespace:ProfileHandler.ViewModels"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:helper="clr-namespace:ProfileHandler.Helpers"
+             Visual="Material"
+             x:Name="Page">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helper:ImageFileToImageSourceConverter x:Key="ImageFileToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:ProfileListPageVM/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                        ItemSpacing="10"
+                        Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView Visual="Material">
+                        <SwipeView.RightItems>
+                            <SwipeItems >
+                                <SwipeItem
+                                            BackgroundColor="LightGray"
+                                            Command="{Binding BindingContext.EditProfileCommand, Source={x:Reference Page}}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Edit" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Frame IsClippedToBounds="True"
+                               Visual="Material"
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Fill"
+                               Style="{StaticResource FrameStyle}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.ViewProfileCommand, Source={x:Reference Page}}"
+                                            CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnSpacing="15" 
+                          HorizontalOptions="FillAndExpand"
+                          Margin="8,10"
+                          VerticalOptions="FillAndExpand" 
+                          BackgroundColor="Transparent">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="70*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Frame Grid.Row="0" 
+                                   Grid.Column="0"
+                                   HorizontalOptions="Center"
+                                   BorderColor="LightGray"
+                                   Padding="1"
+                                   HasShadow="True"
+                                   VerticalOptions="End"
+                                   HeightRequest="100" 
+                                   WidthRequest="100" 
+                                   CornerRadius="50">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding OpenDialogCommand}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Image HeightRequest="100" 
+                               WidthRequest="100"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" Aspect="AspectFill"
+                               Source="{Binding ProfilePicture, Converter={StaticResource ImageFileToImageSourceConverter}}">
+                                    </Image>
+                                </Frame>
+
+                                <Grid Grid.Row="0" 
+                                  Grid.Column="1"
+                                  HorizontalOptions="FillAndExpand" 
+                                  VerticalOptions="FillAndExpand">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Text="{Binding Name}"
+                                       FontSize="40"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="FillAndExpand"/>
+                                    <Label Grid.Row="1" Text="{Binding Mobile}"
+                                       FontSize="18" 
+                                       HorizontalOptions="FillAndExpand"/>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>
